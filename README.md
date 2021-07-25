@@ -66,6 +66,6 @@ Send a message:
 
 There is no cost other than any SMS messages you send and the S3 storage costs for the usage reports.
 
-Use `cdk destroy` or delete the CloudFormation stacks.
+Use `cdk destroy` or delete the CloudFormation stacks. This will delete the Usage log config and reset other setting to default.
 
 If you have usage reports in the S3 bucket they will need to be manually deleted before CloudFormation can delete the bucket.
