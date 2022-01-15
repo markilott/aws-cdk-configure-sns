@@ -6,11 +6,11 @@
  */
 
 /* eslint-disable no-new */
-const cdk = require('@aws-cdk/core');
+const { App } = require('aws-cdk-lib');
 const { SnsConfigStack } = require('../lib/sns-config-stack');
 const { snsSmsAttr } = require('../lib/options');
 
-const app = new cdk.App();
+const app = new App();
 
 // Use account details from default AWS CLI credentials:
 const account = process.env.CDK_DEFAULT_ACCOUNT;
