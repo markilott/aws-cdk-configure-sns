@@ -1,25 +1,29 @@
 /* eslint-disable no-new */
-const { Bucket, BlockPublicAccess, BucketEncryption } = require('aws-cdk-lib').aws_s3;
-const { AwsCustomResource, AwsCustomResourcePolicy } = require('aws-cdk-lib').custom_resources;
-const { Role, ServicePrincipal, PolicyStatement } = require('aws-cdk-lib').aws_iam;
-const { Stack, RemovalPolicy, Duration } = require('aws-cdk-lib');
+import { Bucket, BlockPublicAccess, BucketEncryption } from 'aws-cdk-lib/aws-s3';
+import { AwsCustomResource, AwsCustomResourcePolicy } from 'aws-cdk-lib/custom-resources';
+import { Role, ServicePrincipal, PolicyStatement } from 'aws-cdk-lib/aws-iam';
+import {
+    Stack, StackProps, RemovalPolicy, Duration,
+} from 'aws-cdk-lib';
+import { Construct } from 'constructs';
+import { snsSmsAttr } from '../config';
 
-class SnsConfigStack extends Stack {
-    /**
-     * Configures SNS SMS settings.
-     * Sets the SMS spend limit and the default alpha sender Id.
-     * Creates a bucket for usage reports and sets logging for SMS.
-     *
-     * @param {cdk.Construct} scope
-     * @param {string} id
-     * @param {cdk.StackProps=} props
-     */
-    constructor(scope, id, props) {
+/**
+ * Configures SNS SMS settings.
+ * Sets the SMS spend limit and the default alpha sender Id.
+ * Creates a bucket for usage reports and sets logging for SMS.
+ *
+ * @param {Construct} scope
+ * @param {string} id
+ * @param {StackProps=} props
+ */
+export class SnsConfigStack extends Stack {
+    constructor(scope: Construct, id: string, props: StackProps) {
         super(scope, id, props);
 
         const {
             spendLimit, senderId, statusSamplingRate, messageType, logExpiry,
-        } = props.snsSmsAttr;
+        } = snsSmsAttr;
 
         // CloudWatch Role for Logs
         const statusRole = new Role(this, 'smsStatusRole', {
@@ -43,7 +47,7 @@ class SnsConfigStack extends Stack {
             blockPublicAccess: BlockPublicAccess.BLOCK_ALL,
             encryption: BucketEncryption.S3_MANAGED,
             autoDeleteObjects: true,
-            removalPolicy: RemovalPolicy.DESTROY, // Will cause an error on delete in CloudFormation if the bucket includes objects
+            removalPolicy: RemovalPolicy.DESTROY,
             lifecycleRules: [{
                 expiration: Duration.days(logExpiry),
             }],
@@ -119,4 +123,3 @@ class SnsConfigStack extends Stack {
         });
     }
 }
-module.exports = { SnsConfigStack };

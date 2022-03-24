@@ -1,6 +1,6 @@
 # AWS CDK SNS SMS Configuration
 
-This Javascript CDK project configures default parameters and logging to S3 for SNS SMS messaging.
+This TypeScript CDK project configures default parameters and logging to S3 for SNS SMS messaging.
 
 An S3 bucket is created for SMS usage reports and SNS configured to send daily reports to the bucket.
 
@@ -21,7 +21,7 @@ Assuming you have the AWS CLI and CDK installed and configured already...
 Setup the project:
 - Clone the repo
 - run `npm install`
-- Update the `lib/options.js` file with your own preferences
+- Update the `config/index.ts` file with your own preferences
 
 &nbsp;
 
