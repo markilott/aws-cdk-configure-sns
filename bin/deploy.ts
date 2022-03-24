@@ -6,9 +6,9 @@
  */
 
 /* eslint-disable no-new */
-const { App } = require('aws-cdk-lib');
-const { SnsConfigStack } = require('../lib/sns-config-stack');
-const { snsSmsAttr } = require('../lib/options');
+import 'source-map-support/register';
+import { App } from 'aws-cdk-lib';
+import { SnsConfigStack } from '../lib/sns-config-stack';
 
 const app = new App();
 
@@ -21,5 +21,4 @@ const env = { account, region };
 new SnsConfigStack(app, 'SnsConfigStack', {
     description: 'SNS SMS Configuration Stack',
     env,
-    snsSmsAttr,
 });
