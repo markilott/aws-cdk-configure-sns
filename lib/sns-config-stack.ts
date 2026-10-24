@@ -1,7 +1,7 @@
-/* eslint-disable no-new */
 import { Bucket, BlockPublicAccess, BucketEncryption } from 'aws-cdk-lib/aws-s3';
 import { AwsCustomResource, AwsCustomResourcePolicy } from 'aws-cdk-lib/custom-resources';
 import { Role, ServicePrincipal, PolicyStatement } from 'aws-cdk-lib/aws-iam';
+import { LogGroup, RetentionDays } from 'aws-cdk-lib/aws-logs';
 import {
     Stack, StackProps, RemovalPolicy, Duration,
 } from 'aws-cdk-lib';
@@ -119,7 +119,9 @@ export class SnsConfigStack extends Stack {
                 physicalResourceId: {},
             },
             policy: AwsCustomResourcePolicy.fromSdkCalls({ resources: ['*'] }),
-            logRetention: 7,
+            logGroup: new LogGroup(this, 'snsConfigLogs', {
+                retention: RetentionDays.ONE_WEEK,
+            }),
         });
     }
 }
